@@ -13,4 +13,17 @@ const getAssets = (result) => {
   });
 };
 
-module.exports = { getAssets };
+const getAssetById = (result, id) => {
+  sqlQuery = "SELECT * FROM assets WHERE id = ?";
+  conn.query(sqlQuery, [id], (err, res) => {
+      if (err) {
+        console.log("Cannot fetched the asset", err);
+        result(null, err);
+      } else {
+        console.log("Asset fetched successfully");
+        result(null, res);
+      }
+  })
+}
+
+module.exports = { getAssets, getAssetById };
