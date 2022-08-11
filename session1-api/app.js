@@ -10,7 +10,7 @@ const locationRouter = require("./routes/locationRouter");
 const assetRouter = require("./routes/assetRouter");
 const deptLocationRouter = require('./routes/deptLocationRouter');
 
-const port = process.env.port || 5000;
+const port = process.env.port || 8080;
 
 // Setting up the middlewares
 app.use("/api/departments", departmentRouter);
