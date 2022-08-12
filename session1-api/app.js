@@ -10,7 +10,8 @@ app.use("/api/", SessionRouter);
 const port = process.env.port || 8080;
 
 app.get("/", (req, res) => {
-  res.send(`Server is running on Port ${port}`);
+  res.send(`<p>Server is running on Port ${port}...<br />
+  Database connected successfully...</p>`);
 });
 
 app.listen(port, () => {
