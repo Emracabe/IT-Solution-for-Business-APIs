@@ -1,4 +1,4 @@
-const conn = require('../db_config');
+const conn = require("../db_config");
 
 // Assets Model
 const getAssets = (result) => {
@@ -15,22 +15,34 @@ const getAssets = (result) => {
   });
 };
 
-const getAssetById = (result, id) => {
+// const getAssetById = (result, id) => {
+//   sqlQuery =
+//     "SELECT `a`.`ID`, `a`.`AssetName`, `a`.`AssetSN`, `d`.`Name` AS 'Department', `l`.`Name` AS 'Location', CONCAT(`e`.`FirstName`, ' ', `e`.`LastName`) AS 'Employee', `ag`.`Name` AS 'AssetGroup', `a`.`Description`, `a`.`WarrantyDate` FROM `assets` `a` LEFT JOIN departmentlocations `dl` ON `dl`.`ID` = `a`.`DepartmentLocationID` LEFT JOIN departments `d` ON `d`.`ID` = `dl`.`DepartmentID` LEFT JOIN locations `l` ON `l`.ID = `dl`.`LocationID` LEFT JOIN employees `e` ON `a`.`EmployeeID` = `e`.`ID` LEFT JOIN assetgroups `ag` ON `ag`.`ID` = `a`.`AssetGroupID` WHERE `a`.`ID` = ?";
+//   conn.query(sqlQuery, [id], (err, res) => {
+//     if (err) {
+//       console.log("Cannot fetched the asset", err);
+//       result(null, err);
+//     } else {
+//       console.log("Asset fetched successfully");
+//       result(null, res);
+//     }
+//   });
+// };
+
+const getAssetByName = (result, name) => {
   sqlQuery =
-    "SELECT `a`.`ID`, `a`.`AssetName`, `a`.`AssetSN`, `d`.`Name` AS 'Department', `l`.`Name` AS 'Location', CONCAT(`e`.`FirstName`, ' ', `e`.`LastName`) AS 'Employee', `ag`.`Name` AS 'AssetGroup', `a`.`Description`, `a`.`WarrantyDate` FROM `assets` `a` LEFT JOIN departmentlocations `dl` ON `dl`.`ID` = `a`.`DepartmentLocationID` LEFT JOIN departments `d` ON `d`.`ID` = `dl`.`DepartmentID` LEFT JOIN locations `l` ON `l`.ID = `dl`.`LocationID` LEFT JOIN employees `e` ON `a`.`EmployeeID` = `e`.`ID` LEFT JOIN assetgroups `ag` ON `ag`.`ID` = `a`.`AssetGroupID` WHERE `a`.`ID` = ?";
-  conn.query(sqlQuery, [id], (err, res) => {
-    if (err) {
-      console.log("Cannot fetched the asset", err);
-      result(null, err);
-    } else {
-      console.log("Asset fetched successfully");
-      result(null, res);
-    }
-  });
+    "SELECT `a`.`ID`, `a`.`AssetName`, `a`.`AssetSN`, `d`.`Name` AS 'Department', `l`.`Name` AS 'Location', CONCAT(`e`.`FirstName`, ' ', `e`.`LastName`) AS 'Employee', `ag`.`Name` AS 'AssetGroup', `a`.`Description`, `a`.`WarrantyDate` FROM `assets` `a` LEFT JOIN departmentlocations `dl` ON `dl`.`ID` = `a`.`DepartmentLocationID` LEFT JOIN departments `d` ON `d`.`ID` = `dl`.`DepartmentID` LEFT JOIN locations `l` ON `l`.ID = `dl`.`LocationID` LEFT JOIN employees `e` ON `a`.`EmployeeID` = `e`.`ID` LEFT JOIN assetgroups `ag` ON `ag`.`ID` = `a`.`AssetGroupID` WHERE `a`.`AssetName` = ?";
+    conn.query(sqlQuery, [name], (err, res) => {
+      if (err) {
+        console.log("Cannot fetched the asset", err);
+        result(null, err);
+      } else {
+        console.log("Asset fetched successfully");
+        result(null, res);
+      }
+    });
 };
 // End of Assets Model
-
-
 
 // AssetGroups Model
 const getAssetGroups = (result) => {
@@ -47,11 +59,10 @@ const getAssetGroups = (result) => {
 };
 // End of AssetGroups Model
 
-
-
 // AssetTransferLogs Model
 const getAssetTransferLogs = (result) => {
-  sqlQuery = "SElECT `atl`.`ID`, `a`.`AssetName`, `atl`.`FromAssetSN`, `atl`.`ToAssetSN`, `df`.`Name` AS 'FromDepartment', `dm`.`Name` AS 'ToDepartment', `atl`.`TransferDate` FROM assettransferlogs `atl` LEFT JOIN assets `a` ON `a`.`ID` = `atl`.`AssetID` LEFT JOIN departmentlocations `dlf` ON `atl`.`FromDepartmentLocationID` = `dlf`.`ID` LEFT JOIN departmentlocations `dlt` ON `atl`.`ToDepartmentLocationID` = `dlt`.`ID` LEFT JOIN departments `df` ON `dlf`.`DepartmentID` = `df`.`ID` LEFT JOIN departments `dm` ON `dlt`.`DepartmentID` = `dm`.`ID`;";
+  sqlQuery =
+    "SElECT `atl`.`ID`, `a`.`AssetName`, `atl`.`FromAssetSN`, `atl`.`ToAssetSN`, `df`.`Name` AS 'FromDepartment', `dm`.`Name` AS 'ToDepartment', `atl`.`TransferDate` FROM assettransferlogs `atl` LEFT JOIN assets `a` ON `a`.`ID` = `atl`.`AssetID` LEFT JOIN departmentlocations `dlf` ON `atl`.`FromDepartmentLocationID` = `dlf`.`ID` LEFT JOIN departmentlocations `dlt` ON `atl`.`ToDepartmentLocationID` = `dlt`.`ID` LEFT JOIN departments `df` ON `dlf`.`DepartmentID` = `df`.`ID` LEFT JOIN departments `dm` ON `dlt`.`DepartmentID` = `dm`.`ID`;";
   conn.query(sqlQuery, (err, res) => {
     if (err) {
       console.log("Cannot fetched assettransferlogs", err);
@@ -60,22 +71,21 @@ const getAssetTransferLogs = (result) => {
       console.log("AssetTransferLogs fetched successfully");
       result(null, res);
     }
-  });const getLocations = (result) => {
-  sqlQuery = "SELECT * FROM locations";
-  conn.query(sqlQuery, (err, res) => {
-    if (err) {
-      console.log("Cannot fetched locations", err);
-      result(null, err);
-    } else {
-      console.log("Locations fetched successfully");
-      result(null, res);
-    }
   });
-};
+  const getLocations = (result) => {
+    sqlQuery = "SELECT * FROM locations";
+    conn.query(sqlQuery, (err, res) => {
+      if (err) {
+        console.log("Cannot fetched locations", err);
+        result(null, err);
+      } else {
+        console.log("Locations fetched successfully");
+        result(null, res);
+      }
+    });
+  };
 };
 // End of AssetTransferLogs Model
-
-
 
 // Departments Model
 const getDepartments = (result) => {
@@ -92,8 +102,6 @@ const getDepartments = (result) => {
 };
 // End of Departments Model
 
-
-
 // DepartmentLocations Model
 const getDepartmentLocations = (result) => {
   sqlQuery =
@@ -104,18 +112,19 @@ const getDepartmentLocations = (result) => {
       result(null, err);
     } else {
       console.log("DepartmentLocations fetched successfully");
-      result(null, res);const getLocations = (result) => {
-  sqlQuery = "SELECT * FROM locations";
-  conn.query(sqlQuery, (err, res) => {
-    if (err) {
-      console.log("Cannot fetched locations", err);
-      result(null, err);
-    } else {
-      console.log("Locations fetched successfully");
       result(null, res);
-    }
-  });
-};
+      const getLocations = (result) => {
+        sqlQuery = "SELECT * FROM locations";
+        conn.query(sqlQuery, (err, res) => {
+          if (err) {
+            console.log("Cannot fetched locations", err);
+            result(null, err);
+          } else {
+            console.log("Locations fetched successfully");
+            result(null, res);
+          }
+        });
+      };
     }
   });
 };
@@ -135,8 +144,6 @@ const getDepartmentLocationsById = (result, id) => {
 };
 // End of DepartmentLocations Model
 
-
-
 // Employee Model
 const getEmployees = (result) => {
   sqlQuery = "SELECT * FROM employees";
@@ -151,8 +158,6 @@ const getEmployees = (result) => {
   });
 };
 // End of Employee Model
-
-
 
 // Location Model
 const getLocations = (result) => {
@@ -169,30 +174,29 @@ const getLocations = (result) => {
 };
 // End of Location Model
 
-
-
 // Exporting the Module
 module.exports = {
-	// Assets
-	getAssets, 
-	getAssetById,
-	
-	// AssetGroups
-	getAssetGroups,
-	
-	// AssetTransferLogs
-	getAssetTransferLogs,
-	
-	// Departments
-	getDepartments,
-	
-	// DepartmentLocations
-	getDepartmentLocations,
-	getDepartmentLocationsById,
-	
-	// Employees
-	getEmployees,
-	
-	// Locations
-	getLocations
-}
+  // Assets
+  getAssets,
+  // getAssetById,
+  getAssetByName,
+
+  // AssetGroups
+  getAssetGroups,
+
+  // AssetTransferLogs
+  getAssetTransferLogs,
+
+  // Departments
+  getDepartments,
+
+  // DepartmentLocations
+  getDepartmentLocations,
+  getDepartmentLocationsById,
+
+  // Employees
+  getEmployees,
+
+  // Locations
+  getLocations,
+};

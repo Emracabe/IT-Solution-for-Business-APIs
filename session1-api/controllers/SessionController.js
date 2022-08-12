@@ -23,6 +23,20 @@ const getAssetByIdList = (req, res) => {
       .json({ success: true, msg: "GET assets by ID", data: result });
   }, assetID);
 };
+
+const getAssetByNameQuery = (req, res) => {
+  const {name} = req.query;
+  SessionModel.getAssetByName((err, result) => {
+    if (err) {
+      console.log("Error fetching assetss", err);
+      return res.status(401).json({ success: false, msg: "Error GET assets" });
+    }
+    const firstRes = result[0];
+    res
+      .status(200)
+      .json(firstRes);
+  }, name);
+}
 // End of Asset Controller
 
 
@@ -144,7 +158,8 @@ const getLocationList = (req, res) => {
 module.exports = {
 	// Assets
 	getAssetList,
-	getAssetByIdList,
+	// getAssetByIdList,
+  getAssetByNameQuery,
 	
 	// AssetGroup
 	getAssetGroupsList,

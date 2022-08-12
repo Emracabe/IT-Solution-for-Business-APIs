@@ -9,7 +9,7 @@ router.route('/assetgroups').get(SessionController.getAssetGroupsList);
 
 // Assets Routes
 router.route("/assets").get(SessionController.getAssetList);
-router.route("/assets/:assetID").get(SessionController.getAssetByIdList);
+router.route("/assets/query").get(SessionController.getAssetByNameQuery);
 
 
 // AssetTransferLogs Routes
