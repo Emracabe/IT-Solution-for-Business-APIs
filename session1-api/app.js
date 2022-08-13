@@ -10,7 +10,7 @@ const SessionRouter = require("./routes/SessionRouter");
 // Setting up the middlewares
 app.use("/api/", SessionRouter);
 
-const port = process.env.port || 8080;
+const port = process.env.port || 5000;
 
 app.get("/", (req, res) => {
   res.send(`<p>Server is running on Port ${port}...<br />
