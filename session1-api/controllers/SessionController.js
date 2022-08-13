@@ -7,7 +7,7 @@ const getAssetList = (req, res) => {
       console.log("Error fetching assetss", err);
       return res.status(401).json({ success: false, msg: "Error GET assets" });
     }
-    res.status(200).json({ success: true, msg: "GET assets", data: result });
+    res.status(200).json(result);
   });
 };
 
