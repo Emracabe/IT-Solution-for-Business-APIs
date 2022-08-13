@@ -11,31 +11,27 @@ const getAssetList = (req, res) => {
   });
 };
 
-const getAssetByIdList = (req, res) => {
-  const { assetID } = req.params;
-  SessionModel.getAssetById((err, result) => {
-    if (err) {
-      console.log("Error fetching assetss", err);
-      return res.status(401).json({ success: false, msg: "Error GET assets" });
-    }
-    res
-      .status(200)
-      .json({ success: true, msg: "GET assets by ID", data: result });
-  }, assetID);
-};
+const getAsset = (req, res) => {
+  let {assetgroup, department} = req.query;
+  
+  // Check if some values are undefined
+  if (assetgroup === undefined) {
+    assetgroup = '';
+  }
 
-const getAssetByNameQuery = (req, res) => {
-  const {name} = req.query;
-  SessionModel.getAssetByName((err, result) => {
+  if (department === undefined) {
+    department = ''
+  }
+  console.log(assetgroup, department);
+  SessionModel.getAssetByQuery((err, result) => {
     if (err) {
       console.log("Error fetching assetss", err);
       return res.status(401).json({ success: false, msg: "Error GET assets" });
     }
-    const firstRes = result[0];
     res
       .status(200)
-      .json(firstRes);
-  }, name);
+      .json(result);
+  }, assetgroup, department);
 }
 // End of Asset Controller
 
@@ -159,7 +155,7 @@ module.exports = {
 	// Assets
 	getAssetList,
 	// getAssetByIdList,
-  getAssetByNameQuery,
+  getAsset,
 	
 	// AssetGroup
 	getAssetGroupsList,
